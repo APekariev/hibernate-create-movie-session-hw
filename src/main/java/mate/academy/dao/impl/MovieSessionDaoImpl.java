@@ -40,11 +40,11 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
-    public MovieSession get(Long id) {
+    public Optional<MovieSession> get(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return Optional.ofNullable(session.get(MovieSession.class, id)).get();
+            return Optional.ofNullable(session.get(MovieSession.class, id));
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get a movie by id: " + id, e);
+            throw new DataProcessingException("Can't get a movie session by id: " + id, e);
         }
     }
 
@@ -54,7 +54,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
         try (Session session = sessionFactory.openSession()) {
             Query<MovieSession> movieSessionQuery = session.createQuery("SELECT ms "
                     + "FROM MovieSession ms "
-                    + "WHERE ms.id = :valueMovieId AND ms.showTime "
+                    + "WHERE ms.movie.id = :valueMovieId AND ms.showTime "
                     + "BETWEEN :valueDateBegin AND :valueDateEnd", MovieSession.class);
             movieSessionQuery.setParameter("valueMovieId", movieId);
             movieSessionQuery.setParameter("valueDateBegin", LocalDateTime.of(date, LocalTime.MIN));

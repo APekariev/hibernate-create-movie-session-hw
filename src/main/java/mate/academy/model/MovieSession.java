@@ -60,6 +60,6 @@ public class MovieSession {
                 + "id=" + id
                 + ", movie='" + movie + '\''
                 + ", cinema hall='" + cinemaHall + '\''
-                + ", date and time='" + showTime + "}";
+                + ", date and time='" + showTime + "'}";
     }
 }
